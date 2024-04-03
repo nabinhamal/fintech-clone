@@ -21,7 +21,7 @@ const Page = () => {
         />
       )}
       <View style={{ marginTop: 80, padding: 20 }}>
-        <Text style={styles.header}>Ready to change the way you money?</Text>
+        <Text style={styles.header}>Ready to change the way you earn money?</Text>
       </View>
 
       <View style={styles.buttons}>
