@@ -11,6 +11,12 @@ import { useEffect } from 'react';
 import { TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as SecureStore from 'expo-secure-store';
+import {QueryClient ,QueryClientProvider} from "@tanstack/react-query"
+
+
+
+const queryClient = new QueryClient()
+
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
 
@@ -137,17 +143,48 @@ const InitialLayout = () => {
         }}
       />
   <Stack.Screen name="(authenticated)/(tabs)" options={{ headerShown: false }} />
+  
+  <Stack.Screen
+        name="(authenticated)/crypto/[id]"
+        options={{
+          title: '',
+          headerLeft: () => (
+            <TouchableOpacity onPress={router.back}>
+              <Ionicons name="arrow-back" size={34} color={Colors.dark} />
+            </TouchableOpacity>
+          ),
+          headerLargeTitle: true,
+          headerTransparent: true,
+          headerRight: () => (
+            <View style={{ flexDirection: 'row', gap: 10 }}>
+              <TouchableOpacity>
+                <Ionicons name="notifications-outline" color={Colors.dark} size={30} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Ionicons name="star-outline" color={Colors.dark} size={30} />
+              </TouchableOpacity>
+            </View>
+          ),
+        }}
+      />
     </Stack>
   );
 };
+
+
+
+
 const RootLayoutNav = () => {
   return (
   <>
+  
     <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY!} tokenCache={tokenCache}>
+  <QueryClientProvider client ={queryClient}>
   <GestureHandlerRootView style={{ flex: 1 }}>
             <StatusBar style="light" />
             <InitialLayout />
           </GestureHandlerRootView>
+          </QueryClientProvider>
           </ClerkProvider>
   
   </>
